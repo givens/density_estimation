@@ -8,3 +8,7 @@ _*
 *.asv
 *.eps
 *.DS_Store
+
+R/sshist.R
+
+R/sshistx.R
