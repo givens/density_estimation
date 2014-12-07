@@ -11,7 +11,7 @@ z <- rnorm(N,1,0.1)
 w <- c(x,y,z)
 
 # Plot
-par(mfrow=c(2,2))
+par(mfrow=c(2,1))
 hist(w,breaks="Sturges",main="Using Sturges")
 hist(w,breaks=sshistx(w),main="Using Sshistx")
 
