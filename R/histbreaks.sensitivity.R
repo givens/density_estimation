@@ -64,7 +64,7 @@ for (k in seq_along(p)) {
 }
 dev.off()
 
-# Going towards asymptotic
+# Going toward asymptotic
 png("hist_sensitivity_asymp.png",bg="transparent")
 M = 1e5
 par(mfrow=c(2,1))

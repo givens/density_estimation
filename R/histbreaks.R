@@ -1,5 +1,5 @@
 ## Function `sshistx` uses a modification of sshist to return
-## the optimal number of bins in a histogram which is used for
+## the optimal number of bins in a histogram.  It is used for
 ## density estimation.
 ##
 ## Optimization principle is to minimize the expected L2 loss
