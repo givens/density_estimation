@@ -1,0 +1,113 @@
+---
+title: "Sensitivity Analysis on SSHISTX"
+author: "Brendhan Givens"
+date: "December 7, 2014"
+output: html_document
+---
+
+**Use ggplot2.  It may reduce overlapping plots.**
+
+```{r}
+# Define parameters
+set.seed(1111)
+N = 1000
+x <- rexp(N,5)
+y <- runif(N,1.5,2.5)
+z <- rnorm(N,1,0.1)
+w <- c(x,y,z)
+```
+
+```{r,echo=FALSE}
+source('histbreaks.R')
+ph1 = "Using Sshistx"
+ph2 = "Using Freedman-Diaconis's (FD)"
+ph3 = "Using Sturges's"
+ph4 = "Using Scott's"
+```
+
+# Inliers
+
+```{r}
+# Sensitivity to Inliers
+n = c(10,30,50) # number of inliers
+val = 1.4 # where inliers are placed
+par(mfrow=c(2,2))
+hist(w,breaks=sshistx(w),
+     main=sprintf("%s, no inliers",ph1))
+for (k in seq_along(n)) {
+    w1 <- c(w,rep(val,n[k]))
+    hist(w1,breaks=sshistx(w1),
+         main=sprintf("%s, with %i inliers",ph1,n[k]))
+}
+```
+
+Determination:  Needs regularization for a large number of inliers.
+
+# Outliers
+
+```{r}
+# Sensitivity to Outliers
+val = 4.0
+par(mfrow=c(2,2))
+hist(w,breaks=sshistx(w),
+     main=sprintf("%s, no outliers",ph1),
+     xlim=c(0,val))
+for (k in seq_along(n)) {
+    w1 <- c(w,rep(val,n[k]))
+    hist(w1,breaks=sshistx(w1),
+         main=sprintf("%s, with %i outliers",ph1,n[k]),
+         xlim=c(0,val))
+}
+
+```
+
+Determination:  Needs regularization for a large number of outliers.
+
+## Population Size
+
+```{r}
+# Sensitivity to population size
+p = c(1/10,1/4,1,3)*N
+par(mfcol=c(2,length(p)))
+for (k in seq_along(p)) {
+    w1 = sample(w,p[k])
+    hist(w1,breaks=sshistx(w1),
+         main=sprintf("%s, Population = %i",ph1,p[k]))
+    hist(w1,breaks="Scott",
+         main=sprintf("%s, Population = %i",ph4,p[k]))
+}
+```
+
+Need to fix titles.
+Changes are not linear or smooth.
+
+## Comparison of Normals for different populations
+
+```{r}
+v = rnorm(3*N)
+par(mfcol=c(2,length(p)))
+for (k in seq_along(p)) {
+    v1 = sample(v,p[k])
+    hist(v1,breaks=sshistx(v1),
+         main=sprintf("%s, Normal, Population = %i",ph1,p[k]))
+    hist(v1,breaks="Scott",
+         main=sprintf("%s, Normal, Population = %i",ph4,p[k]))
+}
+```
+
+Need to fix titles.
+Smooth and good.
+
+## Going towards asymptotic
+
+```{r}
+M = 1e5
+par(mfrow=c(1,2))
+r = rnorm(M)
+hist(r,breaks=sshistx(r,N=200),
+     main=sprintf("%s, Large Population",ph1)) # This takes a long time
+hist(r,breaks="Scott",
+     main=sprintf("%s, Large Population",ph4))
+```
+
+Slightly different than scott.  Looks good.
