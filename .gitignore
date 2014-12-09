@@ -16,3 +16,5 @@ R/sshistx.R
 R/hist_sensitivity.png
 
 *.html
+
+R/cards.R
