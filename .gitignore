@@ -18,3 +18,5 @@ R/hist_sensitivity.png
 *.html
 
 R/cards.R
+
+R/.Rhistory
