@@ -52,7 +52,7 @@ sshistx <- function(x,N=500,alpha=0.10) {
     N=N_MIN:N_MAX
 
     SN = 30
-    D = (x.max-x.min)/N # Bin size vector
+    D = (x.max-x.min)/N # Bin size
 
     ##################################
     # Computation of the Cost Function
