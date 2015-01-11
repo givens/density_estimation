@@ -18,7 +18,7 @@
 ## cost is employed to determine optimality.  The smoother
 ## is a local regression called loess.
 ##
-## Computations are more efficient by using `mapply`.
+## `mapply` makes computations more efficient.
 ##
 ## Example usage:
 ## source('histbreaks.R')
@@ -80,10 +80,11 @@ sshistx <- function(x,N=500,alpha=0.10) {
 
 compute.cost <- function(x,D,N,x.min,x.max) {
     edges <- seq(x.min,x.max,length=N+1) # bin edges
+    # use cut and table rather than HIST!!
     v <- hist(x,
               breaks=seq(x.min,x.max,length=N+1),
               plot=F) # count number of events in bins
-    k <- mean(v$counts) # mean of the event count
-    v <- sum((v$counts-k)^2)/N # variance of the event count
+    k <- mean(v$counts) # mean of the event count -- total over number of bins??
+    v <- mean((v$counts-k)^2) # variance of the event count
     C <- (2*k-v)/D^2 # the cost function
 }
